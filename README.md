@@ -9,6 +9,7 @@ A TypeScript reference implementation for fetching and processing data from Osti
 - Normalized data formats
 - Comprehensive examples of subgraph queries
 - BigNumber handling for precise calculations
+- Protocol-specific calculations and formulae
 
 ## Setup
 
@@ -31,6 +32,7 @@ npm install
 ## Example Usage
 
 ```typescript
+// Subgraph Data Fetching
 import { 
   getFormattedPairs,
   getFormattedOpenTrades,
@@ -44,11 +46,34 @@ const pairs = await getFormattedPairs();
 // Example: Get open trades for an address
 const trades = await getFormattedOpenTrades('0x...');
 
-// Example: Get active orders for an address
-const orders = await getFormattedOrders('0x...');
+// Protocol Calculations
+import {
+  GetCollateralInputFromNotional,
+  GetTradeLiquidationPrice,
+  CurrentTradeProfitP,
+  GetTradeValue,
+  GetOpeningFee
+} from './src/utils/formulae';
 
-// Example: Get recent order history
-const history = await getFormattedRecentHistory('0x...', 10);
+// Example: Calculate liquidation price
+const liqPrice = GetTradeLiquidationPrice(
+  openPrice,
+  isLong,
+  collateral,
+  leverage,
+  rolloverFee,
+  fundingFee,
+  maxLeverage
+);
+
+// Example: Calculate trade profit percentage
+const profitP = CurrentTradeProfitP(
+  openPrice,
+  currentPrice,
+  isLong,
+  leverage,
+  highestLeverage
+);
 ```
 
 ## Implementation Details
@@ -62,18 +87,30 @@ The implementation handles various precision levels:
 
 ### Available Functions
 
-#### Pairs
+#### Data Fetching
 - `getFormattedPairs()`: Get all trading pairs with normalized data
 - `getFormattedPairDetails(pairId)`: Get specific pair details
-
-#### Trades
 - `getFormattedOpenTrades(address)`: Get open trades for an address
 - `getFormattedTradeById(tradeId)`: Get specific trade details
-
-#### Orders
 - `getFormattedOrders(address)`: Get active orders
 - `getFormattedOrderById(orderId)`: Get specific order details
 - `getFormattedRecentHistory(address, limit)`: Get order history
+
+#### Protocol Calculations
+- `GetCollateralInputFromNotional()`: Calculate required collateral from notional value
+- `GetTradeLiquidationPrice()`: Calculate trade liquidation price
+- `GetTradeLiquidationMargin()`: Calculate trade liquidation margin
+- `CurrentTradeProfitP()`: Calculate current trade profit percentage
+- `CurrentTradeProfitRaw()`: Calculate current trade profit in raw value
+- `CurrentTotalProfitRaw()`: Calculate total profit including fees
+- `GetTradeValue()`: Get current trade value and liquidation margin
+- `GetTradeRolloverFee()`: Calculate trade rollover fee
+- `GetTradeFundingFee()`: Calculate trade funding fee
+- `GetTakeProfitPrice()`: Calculate take profit price
+- `GetStopLossPrice()`: Calculate stop loss price
+- `GetOpeningFee()`: Calculate trade opening fee
+- `GetPriceImpact()`: Calculate price impact for a trade
+- `IsDayTradeClosed()`: Check if day trading is closed
 
 ## Data Structures
 
