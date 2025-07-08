@@ -1,0 +1,22 @@
+{
+  "name": "ostium-data-ts",
+  "version": "1.0.0",
+  "description": "Ostium Data TypeScript SDK",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "@ethersproject/bignumber": "^5.7.0",
+    "ethers": "^6.15.0",
+    "graphql": "^16.8.1",
+    "graphql-request": "^6.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
